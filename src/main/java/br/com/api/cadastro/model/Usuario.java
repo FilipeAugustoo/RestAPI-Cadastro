@@ -34,5 +34,8 @@ public class Usuario {
     @Size(max = 25)
     private String senha;
 
+    @NotBlank
+    private Integer saldo;
+
     
 }
