@@ -53,9 +53,8 @@ public class CadastroUsuarioService {
         return ResponseEntity.ok(usuario);
     }
 
-    public ResponseEntity<Usuario> buscarPorId(Integer id) {
-        return usuarioRepository.findById(id).map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+    public Boolean verificaSeExisteUsuario(String usuario) {
+        return usuarioRepository.findByUsuario(usuario).isPresent();
     }
 
 }

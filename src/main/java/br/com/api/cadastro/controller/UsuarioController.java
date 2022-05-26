@@ -36,9 +36,9 @@ public class UsuarioController {
         return usuarioRepository.findAll();
     }
 
-    @GetMapping("{usuarioId}")
-    public ResponseEntity<Usuario> buscarPorId(@PathVariable Integer usuarioId) {
-        return cadastroUsuarioService.buscarPorId(usuarioId);
+    @GetMapping("/existe/{usuario}")
+    public Boolean buscarPorId(@PathVariable String usuario) {
+        return cadastroUsuarioService.verificaSeExisteUsuario(usuario);
     }
 
     @PostMapping
