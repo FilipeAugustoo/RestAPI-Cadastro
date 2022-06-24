@@ -10,5 +10,5 @@ import br.com.api.cadastro.model.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer>  {
     Optional<Usuario> findByUsuario(String usuario);
-    
+    Usuario findByUsuarioAndSenha(String usuario, String senha);
 }
