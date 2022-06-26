@@ -42,5 +42,10 @@ public class Extrato {
     @ManyToOne(fetch = FetchType.LAZY)
     private Usuario user;
 
+    @Override
+    public String toString() {
+        return "Extrato [data=" + data + ", tipo=" + tipo + ", user=" + user + ", valor=" + valor + "]";
+    }
 
+    
 }

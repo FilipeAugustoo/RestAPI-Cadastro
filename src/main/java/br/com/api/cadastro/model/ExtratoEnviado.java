@@ -19,10 +19,14 @@ public class ExtratoEnviado {
     @NotNull
     private Integer valor;
 
-    private LocalDateTime data = LocalDateTime.now();
+    private LocalDateTime data;
 
     public Extrato toExtrato() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        LocalDateTime data = LocalDateTime.now();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
+            "dd/MM/yyyy HH:mm");
 
         String dataString = data.format(formatter);
 

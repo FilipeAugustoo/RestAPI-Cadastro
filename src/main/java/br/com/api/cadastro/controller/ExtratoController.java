@@ -35,7 +35,7 @@ public class ExtratoController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public Extrato adiciona(@Valid @RequestBody ExtratoEnviado extratoEnviado) {    
         return extratoService.salvar(extratoEnviado);
     }

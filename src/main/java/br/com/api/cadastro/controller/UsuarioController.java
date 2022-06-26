@@ -6,6 +6,8 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,6 +53,7 @@ public class UsuarioController {
     }
 
     @GetMapping("{usuario}")
+    @Cacheable(value = "listaDeUsuarios")
     public ResponseEntity<Usuario> buscaPorUsuario(@PathVariable String usuario) {
         return usuarioRepository.findByUsuario(usuario).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -75,6 +78,7 @@ public class UsuarioController {
 
     @PostMapping("/cadastrar")
     @ResponseStatus(HttpStatus.CREATED)
+    @CacheEvict(value = "listaDeTopicos", allEntries = true)
     public Usuario salvar(@Valid @RequestBody Usuario usuario) {
         usuario.setSenha(encoder.encode(usuario.getSenha()));
         return cadastroUsuarioService.salvar(usuario);
