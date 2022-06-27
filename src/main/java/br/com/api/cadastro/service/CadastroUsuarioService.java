@@ -5,9 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import br.com.api.cadastro.exception.UsuarioIgualException;
 import br.com.api.cadastro.model.Usuario;
-import br.com.api.cadastro.model.UsuarioLogin;
 import br.com.api.cadastro.model.UsuarioSaldo;
 import br.com.api.cadastro.repository.UsuarioRepository;
 
@@ -17,7 +15,7 @@ public class CadastroUsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public Usuario salvar(Usuario usuario) {
+    public ResponseEntity<Usuario> salvar(Usuario usuario) {
 
         boolean usuarioEhIgual = usuarioRepository
         .findByUsuario(usuario.getUsuario())
@@ -25,68 +23,34 @@ public class CadastroUsuarioService {
             .allMatch(user -> user.equals(usuario));
 
         if (!usuarioEhIgual) {
-			throw new UsuarioIgualException("Já existe um usuário cadastrado com esse nome");
+			return ResponseEntity.badRequest().build();
 		}
 
-        return usuarioRepository.save(usuario);
-    }
-
-    public ResponseEntity<Void> excluir(Integer id) {
-        if (!usuarioRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-
-        usuarioRepository.deleteById(id);
-
-
-        return ResponseEntity.noContent().build();
-    }
-
-    public ResponseEntity<Usuario> atualizar(Integer id, String senha) {
-        if (!usuarioRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Usuario usuario = new Usuario();
-        
-        usuario.setId(id);
-        usuario.setSenha(senha);
-        usuario = salvar(usuario);
-
-        return ResponseEntity.ok(usuario);
+        return new ResponseEntity<Usuario>(usuario, HttpStatus.CREATED);
     }
 
     public Boolean verificaSeExisteUsuario(String usuario) {
         return usuarioRepository.findByUsuario(usuario).isPresent();
     }
 
-    public ResponseEntity<Usuario> logar(UsuarioLogin usuarioLogin) {
-        Usuario user = usuarioRepository.findByUsuarioAndSenha(usuarioLogin.getUsuario(), usuarioLogin.getSenha());
-
-        return ResponseEntity.ok(user);
-    }
-
     public ResponseEntity<Usuario> atualizaSaldo(String usuario, UsuarioSaldo usuarioSaldo, String tipo) {
+        Boolean estaPresente = usuarioRepository.findByUsuario(usuario).isPresent();
+        if(!estaPresente) {
+            return ResponseEntity.notFound().build();
+        }
+        
         if(tipo.equals("add")) {
-            try {
                 Usuario user = usuarioRepository.findByUsuario(usuario).get();
                 user.adicionaSaldo(usuarioSaldo.getSaldo());
-                return new ResponseEntity<Usuario>(usuarioRepository.save(user),
-                        HttpStatus.OK);
-            } catch (Exception e) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
+                return new ResponseEntity<Usuario>(usuarioRepository.save(user), HttpStatus.OK);
+             
         } else if(tipo.equals("rem")) {
-            try {
                 Usuario user = usuarioRepository.findByUsuario(usuario).get();
                 user.removeSaldo(usuarioSaldo.getSaldo());
                 return new ResponseEntity<>(usuarioRepository.save(user), HttpStatus.OK);
-            } catch (Exception e) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
         }
 
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
            
     }
 

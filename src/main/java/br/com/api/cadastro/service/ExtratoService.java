@@ -29,8 +29,7 @@ public class ExtratoService {
 
         Extrato extrato = extratoEnviado.toExtrato();
         extrato.setUser(user);
-
-        System.out.println(extrato);
+        
         return extratoRepository.save(extrato);
     }
 
