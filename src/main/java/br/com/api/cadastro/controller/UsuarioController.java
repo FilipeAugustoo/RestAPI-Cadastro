@@ -1,5 +1,7 @@
 package br.com.api.cadastro.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,11 @@ public class UsuarioController {
 
     @Autowired
     private PasswordEncoder encoder;
+
+    @GetMapping
+    public List<Usuario> listar() {
+        return usuarioRepository.findAll();
+    }
 
     @GetMapping("/existe/{usuario}")
     public Boolean verificaSeExixste(@PathVariable String usuario) {

@@ -26,6 +26,8 @@ public class CadastroUsuarioService {
 			return ResponseEntity.badRequest().build();
 		}
 
+        usuarioRepository.save(usuario);
+
         return new ResponseEntity<Usuario>(usuario, HttpStatus.CREATED);
     }
 
