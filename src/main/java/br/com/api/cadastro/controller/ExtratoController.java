@@ -22,7 +22,7 @@ import br.com.api.cadastro.service.ExtratoService;
 
 @RestController
 @RequestMapping("/extrato")
-@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
+@CrossOrigin(origins = "https://filipeaugustoo.github.io", allowedHeaders = "*")
 public class ExtratoController {
 
 

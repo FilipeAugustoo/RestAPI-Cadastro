@@ -26,7 +26,7 @@ import br.com.api.cadastro.service.CadastroUsuarioService;
 
 @RestController
 @RequestMapping("/usuario")
-@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
+@CrossOrigin(origins = "https://filipeaugustoo.github.io", allowedHeaders = "*")
 public class UsuarioController {
 
     @Autowired
