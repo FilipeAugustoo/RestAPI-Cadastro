@@ -56,13 +56,14 @@ public class UsuarioController {
     }
 
     @PostMapping("/cadastrar")
-    @CacheEvict(value = "listaDeTopicos", allEntries = true)
+    @CacheEvict(value = "listaDeUsuarios", allEntries = true)
     public ResponseEntity<Usuario> salvar(@Valid @RequestBody Usuario usuario) {
         usuario.setSenha(encoder.encode(usuario.getSenha()));
         return cadastroUsuarioService.salvar(usuario);
     }
 
     @PatchMapping("{usuario}/saldo")
+    @CacheEvict(value = "listaDeUsuarios", allEntries = true)
     public ResponseEntity<Usuario> adicionaSaldo(@Valid @PathVariable String usuario,
             @RequestBody UsuarioSaldo usuarioSaldo, @RequestParam String tipo) {
         return cadastroUsuarioService.atualizaSaldo(usuario, usuarioSaldo, tipo);
