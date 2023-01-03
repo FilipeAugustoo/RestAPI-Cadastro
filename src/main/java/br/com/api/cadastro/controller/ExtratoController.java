@@ -22,7 +22,7 @@ import br.com.api.cadastro.service.ExtratoService;
 
 @RestController
 @RequestMapping("/extrato")
-@CrossOrigin(origins = "https://filipeaugustoo.github.io", allowedHeaders = "*")
+@CrossOrigin(origins = "https://btcbank.vercel.app", allowedHeaders = "*")
 public class ExtratoController {
 
 

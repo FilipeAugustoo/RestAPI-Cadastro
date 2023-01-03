@@ -26,7 +26,7 @@ import br.com.api.cadastro.service.CadastroUsuarioService;
 
 @RestController
 @RequestMapping("/usuario")
-@CrossOrigin(origins = "https://filipeaugustoo.github.io", allowedHeaders = "*")
+@CrossOrigin(origins = "https://btcbank.vercel.app", allowedHeaders = "*")
 public class UsuarioController {
 
     @Autowired
